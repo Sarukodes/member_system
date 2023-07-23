@@ -18,8 +18,11 @@ class memberController extends Controller
     $memberModel->local_body=$request->local_body;
     $memberModel->ward=$request->ward;
     $memberModel->tole=$request->tole;
-    $memberModel->phoneno=$request->phoneo;
+    $memberModel->phoneno=$request->phoneno;
     $memberModel->date=$request->date;
     $memberModel->save();
+     return response()->json([
+         "message" => "member added successfully"
+      ], 201);
    }
 }
