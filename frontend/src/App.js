@@ -1,7 +1,8 @@
 
 import "./App.css";
 import Home from "./components/pages/Home";
-import Member from "./components/pages/Member";
+import List from "./components/pages/List";
+import Add from "./components/pages/Add";
 import Province from './components/Province';
 import Sidebar from "./sidebar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -19,7 +20,8 @@ function App() {
           <Routes>
         
             <Route path="/pages/Home" element={<Home />} />
-            <Route path="/pages/member"element={<Member/>}/>
+            <Route path="/pages/List"element={<List/>}/>
+            <Route path="/pages/Add"element={<Add/>}/>
             <Route path="/Province"element={<Province/>}/>
 
           </Routes>

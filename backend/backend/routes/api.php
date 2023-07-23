@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\memberController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::get('list',[memberController::class,'list']);
+Route::post('add',[memberController::class,'add']);
+

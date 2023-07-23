@@ -21,7 +21,7 @@ const Sidebar = () => {
           </li>
           <li className="sidebar-menu-item">
             <i className="fas fa-user"></i>
-            <Link to="pages/Member">
+            <Link to="pages/list">
               <span>Member</span>
             </Link>
             

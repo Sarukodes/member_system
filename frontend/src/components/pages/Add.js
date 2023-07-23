@@ -1,33 +1,19 @@
 import React, { useState } from "react";
+import axios from "axios";
 import municipalitiesData from "../../municipality.json";
 
-const MunicipalitySelector = ({ onDistrictChange, onMunicipalityChange }) => {
+const MunicipalitySelector = ({ onDistrictChange }) => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [selectedMunicipality, setSelectedMunicipality] = useState("");
+  const [, setSelectedMunicipality] = useState("");
 
   const handleDistrictChange = (e) => {
     const district = e.target.value;
     setSelectedDistrict(district);
     setSelectedMunicipality("");
-
-    // Pass the selected district back to the parent component (Member) using the onDistrictChange prop
     onDistrictChange(district);
   };
-
-  const handleMunicipalityChange = (e) => {
-    const municipality = e.target.value;
-    setSelectedMunicipality(municipality);
-
-    // Pass the selected municipality back to the parent component (Member) using the onMunicipalityChange prop
-    onMunicipalityChange(municipality);
-  };
-
   const districts = municipalitiesData.map((item) => item.district);
 
-  const local_bodies =
-    selectedDistrict &&
-    municipalitiesData.find((item) => item.district === selectedDistrict)
-      .local_body;
 
   return (
     <div>
@@ -50,7 +36,7 @@ const MunicipalitySelector = ({ onDistrictChange, onMunicipalityChange }) => {
   );
 };
 
-function Member() {
+function Add() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedMunicipality, setSelectedMunicipality] = useState("");
 
@@ -60,6 +46,25 @@ function Member() {
 
   const handleMunicipalityChange = (municipality) => {
     setSelectedMunicipality(municipality);
+  };
+  const [post, setPost] = useState({
+    name: "",
+    province: "",
+    district: "",
+    district: "",
+    local_body: "",
+    ward: "",
+    tole:"",
+    phoneno:"",
+    date:""
+  });
+  
+  const handleSubmit = (event) => {
+    axios
+      .post('http://localhost:8000/api/comitte/add', post)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    event.preventDefault();
   };
 
   return (
@@ -171,7 +176,7 @@ function Member() {
                     </div>
                     </div>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button onClick={handleSubmit} className="btn btn-primary">
                     Sign in
                   </button>
                 </form>
@@ -184,4 +189,4 @@ function Member() {
   );
 }
 
-export default Member;
+export default Add;
