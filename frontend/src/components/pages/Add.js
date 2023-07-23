@@ -177,7 +177,7 @@ function Add() {
                     </div>
                   </div>
                   <button onClick={handleSubmit} className="btn btn-primary">
-                    Sign in
+                 Submit
                   </button>
                 </form>
               </div>
