@@ -21,5 +21,8 @@ class memberController extends Controller
     $memberModel->phoneno=$request->phoneno;
     $memberModel->date=$request->date;
     $memberModel->save();
+     return response()->json([
+         "message" => "member added successfully"
+      ], 201);
    }
 }
