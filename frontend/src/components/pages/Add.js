@@ -9,8 +9,8 @@ const MunicipalitySelector = ({ onDistrictChange }) => {
   const handleDistrictChange = (e) => {
     const district = e.target.value;
     setSelectedDistrict(district);
-    setSelectedMunicipality("");
     onDistrictChange(district);
+
   };
   const districts = municipalitiesData.map((item) => item.district);
 
@@ -42,27 +42,34 @@ function Add() {
 
   const handleDistrictChange = (district) => {
     setSelectedDistrict(district);
+    setPost({ ...post, district: district })
+    console.log(post);
   };
 
   const handleMunicipalityChange = (municipality) => {
     setSelectedMunicipality(municipality);
+    setPost({ ...post, local_body: municipality });
+    console.log(post);
   };
   const [post, setPost] = useState({
     name: "",
     province: "",
     district: "",
-    district: "",
     local_body: "",
     ward: "",
-    tole:"",
-    phoneno:"",
-    date:""
+    tole: "",
+    phoneno: "",
+    date: ""
   });
-  
+
+  const [message, setMessage] = useState("");
   const handleSubmit = (event) => {
     axios
-      .post('http://localhost:8000/api/comitte/add', post)
-      .then((res) => console.log(res))
+      .post('http://localhost:8000/api/add', post)
+      .then((res) => {
+        console.log(res)
+        setMessage(res.data.message)
+      })
       .catch((err) => console.log(err));
     event.preventDefault();
   };
@@ -87,13 +94,14 @@ function Add() {
                           className="form-control"
                           id="name"
                           placeholder="Enter your name"
+                          onChange={(e) => setPost({ ...post, name: e.target.value })}
                         />
                       </div>
                     </div>
                     <div className="col-md-6 p-1">
                       <div class="form-group ">
                         <label for="province">Province</label>
-                        <select id="province" class="form-control">
+                        <select id="province" class="form-control" onChange={(e) => { setPost({ ...post, province: e.target.value }) }}>
                           <option selected>Select province</option>
                           <option> Koshi Province</option>
                           <option> Madesh Province</option>
@@ -108,7 +116,7 @@ function Add() {
                     <div className="col-md-6 p-1">
                       <MunicipalitySelector
                         onDistrictChange={handleDistrictChange}
-                        onMunicipalityChange={handleMunicipalityChange}
+                      // onMunicipalityChange={handleMunicipalityChange}
                       />
                     </div>
                     <div className="col-md-6 p-1">
@@ -117,7 +125,7 @@ function Add() {
                         <select
                           className="form-control"
                           value={selectedMunicipality}
-                          onChange={(e) => setSelectedMunicipality(e.target.value)}
+                          onChange={(e) => { setSelectedMunicipality(e.target.value); setPost({ ...post, local_body: e.target.value }) }}
                         >
                           <option value="">Select local body</option>
                           {selectedDistrict &&
@@ -132,54 +140,61 @@ function Add() {
                       </div>
                     </div>
                     <div className="col-md-6 p-1">
-                    <div class="form-group">
-                      <label for="Ward">Ward no</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        id="ward"
-                        placeholder="Enter your ward no"
-                      />
-                    </div>
+                      <div class="form-group">
+                        <label for="Ward">Ward no</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="ward"
+                          placeholder="Enter your ward no"
+                          onChange={(e) => setPost({ ...post, ward: e.target.value })}
+                        />
+                      </div>
                     </div>
                     <div className="col-md-6 p-1">
-                    <div class="form-group">
-                      <label for="Name">Tole</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="tole"
-                        placeholder="Enter your tole"
-                      />
-                    </div>
-                    </div>
-                    <div className="div-col-md-12 p-1">
-                    <div class="form-group">
-                      <label for="Phoneno">Phone no</label>
-                      <input
-                        type="phone"
-                        class="form-control"
-                        id="name"
-                        placeholder="Enter your phoneno"
-                      />
-                    </div>
+                      <div class="form-group">
+                        <label for="Name">Tole</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="tole"
+                          placeholder="Enter your tole"
+                          onChange={(e) => setPost({ ...post, tole: e.target.value })}
+                        />
+                      </div>
                     </div>
                     <div className="div-col-md-12 p-1">
-                    <div class="form-group">
-                      <label for="DOB">DOB</label>
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="DOB"
-                        placeholder="Enter your DOB"
-                      />
+                      <div class="form-group">
+                        <label for="Phoneno">Phone no</label>
+                        <input
+                          type="phone"
+                          class="form-control"
+                          id="name"
+                          placeholder="Enter your phoneno"
+                          onChange={(e) => setPost({ ...post, phoneno: e.target.value })}
+                        />
+                      </div>
                     </div>
+                    <div className="div-col-md-12 p-1">
+                      <div class="form-group">
+                        <label for="DOB">DOB</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="DOB"
+                          placeholder="Enter your DOB"
+                          onChange={(e) => setPost({ ...post, date: e.target.value })}
+                        />
+                      </div>
                     </div>
                   </div>
                   <button onClick={handleSubmit} className="btn btn-primary">
-                 Submit
+                    Submit
                   </button>
                 </form>
+                <div className="mt-3">
+                  <h4>{message}</h4>
+                </div>
               </div>
             </div>
           </div>
